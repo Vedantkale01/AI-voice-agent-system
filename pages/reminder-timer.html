@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AI Assistant - Reminders & Timers</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e13ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111022",
+                        "surface-dark": "#1e1e2d",
+                        "surface-light": "#292839",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111022;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #292839;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3c3b54;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                box-shadow: 0 0 0 0 rgba(30, 19, 236, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(30, 19, 236, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(30, 19, 236, 0);
+            }
+        }
+
+        .timer-pulse {
+            animation: pulse-ring 2s infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white overflow-hidden">
+    <!-- Simplified Layout -->
+    <div class="flex h-screen w-full overflow-hidden">
+        <!-- Minimal Sidebar -->
+        <aside class="hidden w-20 flex-col items-center border-r border-[#292839] bg-[#111118] py-6 lg:flex">
+            <div class="size-10 mb-8 rounded-full bg-cover bg-center bg-no-repeat"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAM92ol-5qr_e2cH7oFGOrTMX99gQ4nF5Iik5e1uSIZMj4WSwTL4otgBshSMmvV7gxMjYcuUNC7a-HPm_Flugw9aoVfb1928TLTS5fcXj4tM0j3uUi_FfM3T8nvZ7e6Twc-iFik_WAVaJHtrnaBgStSKXBnuHwC0aI5LYkNIsDyuf4-QBKfoekvBY61RwiW6l1KuYYt7UliAs6ILBCnwiD8bnW76hRVrHc0EdO8ljXzZicEXkBktVLeqy2aDwPKtHpd3HaHT_O-QTe0");'>
+            </div>
+            <nav class="flex flex-col gap-4">
+                <a class="flex size-12 items-center justify-center rounded-xl bg-primary/20 text-primary transition-transform hover:scale-105"
+                    href="#" title="Schedule">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">schedule</span>
+                </a>
+            </nav>
+            <div class="mt-auto">
+                <div class="size-8 rounded-full bg-gray-700 bg-cover bg-center cursor-pointer opacity-80 hover:opacity-100"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkxQwXedhpYYAdMrufaNvMoXLPvpacpmnZH9VIZBbD17Xp5mtOQJ9oCMwNqB4AtB0cKMwRniF1GvRpZfVCwPlgGpokxu_amQYUKhNVOuK9hFq8HhMpCvwnieBSoKwwFft2XzzTw3mwyNcNGl8_n0GnENE44--Mo7w987nFMB4RGgMtD_TEi0Ha9Ql211xHtgw0UwLEYdBT_i6J3bCwgmUT8vhxpxeKUVUjls4FslVYlSRaEdQXKze8YAzhE2q9gc_szjT97A0SrQuB");'>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content (Full Height, No Header) -->
+        <main
+            class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden bg-background-light dark:bg-background-dark relative">
+            <div class="mx-auto w-full max-w-7xl flex-1 p-6 lg:p-10">
+                <div class="mb-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-4xl font-black tracking-tight text-white">Active Schedule</h2>
+                        <p class="text-[#9e9db9]">Manage your reminders and active timers via AI voice or text.</p>
+                    </div>
+                    <button id="add-new-btn"
+                        class="group flex h-12 items-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-white transition hover:bg-primary/90 shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined transition-transform group-hover:rotate-90">add</span>
+                        <span>Add New</span>
+                    </button>
+                </div>
+
+                <!-- AI Composer Input -->
+                <div class="mb-10 w-full">
+                    <div class="relative group">
+                        <div
+                            class="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/50 to-purple-600/50 opacity-0 transition group-hover:opacity-100 blur-lg">
+                        </div>
+                        <div
+                            class="relative flex w-full items-center rounded-2xl bg-[#292839] p-2 shadow-2xl ring-1 ring-white/10 focus-within:ring-primary/50">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1e1e2d] text-primary">
+                                <span class="material-symbols-outlined">auto_awesome</span>
+                            </div>
+                            <input id="ai-input"
+                                class="flex-1 bg-transparent px-4 py-3 text-lg text-white placeholder-[#9e9db9] focus:outline-none"
+                                placeholder="Ask AI to set a reminder or timer (e.g., 'Timer for 20m')..." />
+                            <div class="flex items-center gap-2 pr-2">
+                                <button
+                                    class="rounded-lg p-2 text-[#9e9db9] hover:bg-[#3c3b54] hover:text-white transition"><span
+                                        class="material-symbols-outlined">keyboard_voice</span></button>
+                                <button id="send-btn"
+                                    class="h-10 rounded-xl bg-[#1e1e2d] px-4 text-sm font-bold text-white hover:bg-[#3c3b54] transition border border-white/5">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                    <!-- Reminders Timeline -->
+                    <div class="lg:col-span-7 flex flex-col gap-6">
+                        <div class="flex items-center gap-6 border-b border-[#292839] pb-0">
+                            <button class="relative pb-4 text-sm font-bold text-white">Upcoming Reminders<span
+                                    class="absolute bottom-0 left-0 h-0.5 w-full bg-primary shadow-[0_0_10px_#1e13ec]"></span></button>
+                        </div>
+
+                        <div id="reminders-list" class="relative flex flex-col gap-6 pl-4 pt-4">
+                            <!-- Reminders injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Active Timers -->
+                    <div class="lg:col-span-5 flex flex-col gap-6">
+                        <div class="flex items-center justify-between border-b border-[#292839] pb-4">
+                            <h3 class="text-sm font-bold text-white">Active Timers</h3>
+                            <button class="text-xs font-medium text-primary hover:text-white transition">View
+                                All</button>
+                        </div>
+                        <div id="timers-list" class="grid grid-cols-1 gap-4">
+                            <!-- Timers injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Timer Creation Modal -->
+    <div id="timer-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="w-full max-w-md scale-95 transform rounded-2xl bg-[#1e1e2d] p-6 shadow-2xl border border-[#292839] transition-transform duration-300"
+            id="timer-modal-content">
+            <h3 class="text-xl font-bold text-white mb-1">Set New Timer</h3>
+            <p class="text-[#9e9db9] text-sm mb-6">Create a countdown timer for your task.</p>
+
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-[#9e9db9] uppercase tracking-wider">Label</label>
+                    <input id="modal-timer-title" type="text" value="Focus Session"
+                        class="w-full rounded-xl bg-[#111118] border border-[#292839] px-4 py-3 text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition"
+                        placeholder="e.g. Reading">
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-[#9e9db9] uppercase tracking-wider">Duration (Minutes)</label>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustDuration(-5)"
+                            class="size-10 rounded-xl bg-[#292839] text-white hover:bg-[#3c3b54] transition"><span
+                                class="material-symbols-outlined text-sm">remove</span></button>
+                        <input id="modal-timer-duration" type="number" value="25" min="1"
+                            class="flex-1 rounded-xl bg-[#111118] border border-[#292839] px-4 py-3 text-center text-white font-mono text-lg focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition">
+                        <button onclick="adjustDuration(5)"
+                            class="size-10 rounded-xl bg-[#292839] text-white hover:bg-[#3c3b54] transition"><span
+                                class="material-symbols-outlined text-sm">add</span></button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-2 mt-2">
+                    <button onclick="setDuration(5)"
+                        class="rounded-lg bg-[#292839] py-2 text-xs font-bold text-[#9e9db9] hover:bg-[#3c3b54] hover:text-white transition">5m</button>
+                    <button onclick="setDuration(15)"
+                        class="rounded-lg bg-[#292839] py-2 text-xs font-bold text-[#9e9db9] hover:bg-[#3c3b54] hover:text-white transition">15m</button>
+                    <button onclick="setDuration(30)"
+                        class="rounded-lg bg-[#292839] py-2 text-xs font-bold text-[#9e9db9] hover:bg-[#3c3b54] hover:text-white transition">30m</button>
+                    <button onclick="setDuration(60)"
+                        class="rounded-lg bg-[#292839] py-2 text-xs font-bold text-[#9e9db9] hover:bg-[#3c3b54] hover:text-white transition">1h</button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 mt-8">
+                <button onclick="closeModal()"
+                    class="flex-1 rounded-xl bg-transparent border border-[#3c3b54] py-3 text-sm font-bold text-white hover:bg-[#292839] transition">Cancel</button>
+                <button onclick="submitModal()"
+                    class="flex-1 rounded-xl bg-primary py-3 text-sm font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary/90 transition">Start
+                    Timer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Init Data safely ---
+        // We use window variables to ensure they are available
+        window.reminders = [];
+        window.timers = [];
+
+        try {
+            window.reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+            if (!Array.isArray(window.reminders)) window.reminders = [];
+
+            // Default data if empty
+            if (window.reminders.length === 0) {
+                window.reminders = [
+                    { id: 1, time: '09:00', title: 'Team Standup', tag: { text: 'Google Meet', icon: 'videocam', colorClass: 'text-purple-400 bg-purple-500/10 border-purple-500/20' }, avatars: true },
+                    { id: 2, time: '11:30', title: 'Review Q3 Analytics', tag: { text: 'Report', icon: 'analytics', colorClass: 'text-green-400 bg-green-500/10 border-green-500/20' } }
+                ];
+            }
+
+            window.timers = JSON.parse(localStorage.getItem('timers')) || [];
+            if (!Array.isArray(window.timers)) window.timers = [];
+
+            // Default timer if empty
+            if (window.timers.length === 0) {
+                window.timers = [{ id: Date.now(), title: 'Deep Work Session', totalTime: 900, remainingTime: 900, status: 'paused' }];
+            }
+
+        } catch (e) {
+            console.error("Error loading data", e);
+            window.timers = [];
+            window.reminders = [];
+        }
+
+        const remindersList = document.getElementById('reminders-list');
+        const timersList = document.getElementById('timers-list');
+        const aiInput = document.getElementById('ai-input');
+        const sendBtn = document.getElementById('send-btn');
+        const addNewBtn = document.getElementById('add-new-btn');
+
+        // Modal Elements
+        const modal = document.getElementById('timer-modal');
+        const modalContent = document.getElementById('timer-modal-content');
+        const titleInput = document.getElementById('modal-timer-title');
+        const durationInput = document.getElementById('modal-timer-duration');
+
+        function saveData() {
+            try {
+                localStorage.setItem('reminders', JSON.stringify(window.reminders));
+                localStorage.setItem('timers', JSON.stringify(window.timers));
+            } catch (e) { console.error("Save failed", e); }
+        }
+
+        // --- MODAL FUNCTIONS (Global) ---
+        window.openModal = function () {
+            if (modal) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+                titleInput.focus();
+            }
+        }
+
+        window.closeModal = function () {
+            if (modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+            }
+        }
+
+        window.adjustDuration = function (delta) {
+            let val = parseInt(durationInput.value) || 0;
+            val = Math.max(1, val + delta);
+            durationInput.value = val;
+        }
+
+        window.setDuration = function (val) {
+            durationInput.value = val;
+        }
+
+        window.submitModal = function () {
+            const title = titleInput.value.trim() || 'Timer';
+            const duration = parseInt(durationInput.value);
+
+            if (duration && duration > 0) {
+                window.addTimer(title, duration);
+                window.closeModal();
+                // Reset defaults
+                titleInput.value = 'Focus Session';
+                durationInput.value = '25';
+            }
+        }
+
+        // Close on backdrop click
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) window.closeModal();
+            });
+        }
+
+        // --- RENDER FUNCTIONS ---
+        window.renderReminders = function () {
+            if (!remindersList) return;
+
+            if (window.reminders.length === 0) {
+                remindersList.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-10 opacity-50">
+                    <span class="material-symbols-outlined text-4xl mb-2 text-[#9e9db9]">event_busy</span>
+                    <p class="text-[#9e9db9] text-sm">No upcoming reminders</p>
+                </div>`;
+                return;
+            }
+
+            let html = '<div class="absolute bottom-0 left-[27px] top-6 w-px bg-gradient-to-b from-[#3c3b54] to-transparent"></div>';
+
+            window.reminders.sort((a, b) => a.time.localeCompare(b.time)).forEach(rem => {
+                html += `
+            <div class="relative z-10 grid grid-cols-[auto_1fr] gap-6 group">
+                <div class="flex flex-col items-center gap-2 pt-1">
+                    <div class="size-3 rounded-full ${rem.id === 1 ? 'bg-primary shadow-[0_0_8px_#1e13ec]' : 'bg-[#3c3b54]'}"></div>
+                    <span class="text-xs font-medium ${rem.id === 1 ? 'text-primary' : 'text-[#9e9db9]'}">${rem.time}</span>
+                </div>
+                <div class="flex flex-col gap-3 rounded-2xl bg-[#1e1e2d] p-5 border border-[#292839] hover:border-primary/30 transition-all hover:bg-[#292839]/50">
+                    <div class="flex items-start justify-between">
+                        <div class="flex flex-col gap-1">
+                            <h3 class="text-lg font-bold text-white">${rem.title}</h3>
+                            <div class="flex items-center gap-2">
+                                ${rem.tag ? `<span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium border ${rem.tag.colorClass}"><span class="material-symbols-outlined text-[12px]">${rem.tag.icon}</span> ${rem.tag.text}</span>` : ''}
+                                ${rem.badge ? `<span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium border ${rem.badge.colorClass}">${rem.badge.text}</span>` : ''}
+                            </div>
+                        </div>
+                        <button onclick="deleteReminder(${rem.id})" class="text-[#9e9db9] opacity-0 group-hover:opacity-100 hover:text-red-400 transition" title="Delete Reminder"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                    ${rem.description ? `<p class="text-sm text-[#9e9db9]">${rem.description}</p>` : ''}
+                </div>
+            </div>`;
+            });
+            remindersList.innerHTML = html;
+        }
+
+        window.renderTimers = function () {
+            if (!timersList) return;
+
+            let html = '';
+
+            // Separate running timer (priority) from others
+            // Only prioritize if it's running. Else just take first one.
+            const activeTimer = window.timers.find(t => t.status === 'running') || window.timers[0];
+
+            // 1. Render Big Card for Active Timer
+            if (activeTimer) {
+                const total = activeTimer.totalTime || 1; // prevent div by zero
+                const progress = (activeTimer.remainingTime / total) * 283;
+                const dashOffset = 283 - progress;
+                const minutes = Math.floor(activeTimer.remainingTime / 60).toString().padStart(2, '0');
+                const seconds = (activeTimer.remainingTime % 60).toString().padStart(2, '0');
+
+                const isCompleted = activeTimer.remainingTime === 0;
+                const statusText = isCompleted ? 'Completed' : (activeTimer.status === 'running' ? 'Running' : 'Paused');
+                const glowColor = isCompleted ? 'bg-green-500/20' : 'bg-primary/20';
+                const strokeColor = isCompleted ? '#22c55e' : '#1e13ec';
+
+                html += `
+             <div class="relative overflow-hidden rounded-2xl bg-[#1e1e2d] p-6 shadow-xl border ${isCompleted ? 'border-green-500/50' : 'border-primary/20'}">
+                <div class="absolute top-0 right-0 p-3 opacity-0 hover:opacity-100 transition-opacity z-10">
+                    <button onclick="deleteTimer(${activeTimer.id})" class="text-[#9e9db9] hover:text-white"><span class="material-symbols-outlined text-sm">close</span></button>
+                </div>
+                <div class="flex flex-col items-center justify-center gap-4">
+                    <div class="relative size-40">
+                        <div class="absolute inset-0 rounded-full ${glowColor} blur-xl"></div>
+                        <svg class="h-full w-full rotate-[-90deg]" viewbox="0 0 100 100">
+                            <circle cx="50" cy="50" fill="none" r="45" stroke="#292839" stroke-width="6"></circle>
+                            <circle class="transition-all duration-1000 ease-linear drop-shadow-[0_0_4px_rgba(30,19,236,0.8)]" cx="50" cy="50" fill="none" r="45" stroke="${strokeColor}" stroke-dasharray="283" stroke-dashoffset="${dashOffset}" stroke-linecap="round" stroke-width="6"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-3xl font-bold tracking-widest text-white font-mono ${isCompleted ? 'text-green-400' : ''}">${minutes}:${seconds}</span>
+                            <span class="text-xs font-medium ${isCompleted ? 'text-green-400' : 'text-primary'} mt-1 ${activeTimer.status === 'running' ? 'animate-pulse' : ''}">${statusText}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center gap-3 w-full">
+                        <h4 class="text-base font-bold text-white">${activeTimer.title}</h4>
+                        <div class="flex items-center gap-2 rounded-xl bg-[#292839] p-1">
+                            ${!isCompleted ? `
+                            <button onclick="toggleTimer(${activeTimer.id})" class="rounded-lg bg-[#3c3b54] p-2 text-white shadow-sm hover:bg-white hover:text-black transition">
+                                <span class="material-symbols-outlined text-[20px]">${activeTimer.status === 'running' ? 'pause' : 'play_arrow'}</span>
+                            </button>` : ''}
+                            <button onclick="resetTimer(${activeTimer.id})" class="rounded-lg p-2 text-[#9e9db9] hover:bg-[#3c3b54] hover:text-white transition">
+                                <span class="material-symbols-outlined text-[20px]">restart_alt</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            }
+
+            // 2. Render Other Timers (Small Cards)
+            window.timers.forEach(t => {
+                if (activeTimer && t.id === activeTimer.id) return;
+
+                const total = t.totalTime || 1;
+                const minutes = Math.floor(t.remainingTime / 60).toString().padStart(2, '0');
+                const seconds = (t.remainingTime % 60).toString().padStart(2, '0');
+                const progress = (t.remainingTime / total) * 283;
+                const dashOffset = 283 - progress;
+                const isCompleted = t.remainingTime === 0;
+
+                html += `
+            <div class="relative overflow-hidden rounded-2xl bg-[#1e1e2d] p-5 border ${isCompleted ? 'border-green-500/30' : 'border-[#292839]'} opacity-90 hover:opacity-100 transition">
+                <div class="absolute top-2 right-2 p-1 z-20">
+                     <button onclick="deleteTimer(${t.id})" class="text-[#9e9db9] hover:text-red-400 opacity-50 hover:opacity-100"><span class="material-symbols-outlined text-xs">close</span></button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative size-16 shrink-0">
+                        <svg class="h-full w-full rotate-[-90deg]" viewbox="0 0 100 100">
+                            <circle cx="50" cy="50" fill="none" r="45" stroke="#292839" stroke-width="8"></circle>
+                            <circle cx="50" cy="50" fill="none" r="45" stroke="${isCompleted ? '#22c55e' : '#9e9db9'}" stroke-dasharray="283" stroke-dashoffset="${dashOffset}" stroke-linecap="round" stroke-width="8"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-xs font-bold text-white font-mono">${minutes}:${seconds}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-1 flex-col justify-center">
+                        <h4 class="text-sm font-bold text-white">${t.title}</h4>
+                        <p class="text-xs ${isCompleted ? 'text-green-400' : 'text-[#9e9db9]'} capitalise">${isCompleted ? 'Finished' : t.status}</p>
+                    </div>
+                    ${!isCompleted ? `
+                    <button onclick="toggleTimer(${t.id})" class="rounded-full bg-[#292839] p-2 text-white hover:bg-primary transition">
+                        <span class="material-symbols-outlined text-[20px]">${t.status === 'running' ? 'pause' : 'play_arrow'}</span>
+                    </button>` : ''}
+                </div>
+            </div>`;
+            });
+
+            // 3. Add Button
+            html += `<button id="quick-timer-btn" class="flex items-center justify-center gap-2 rounded-2xl border border-dashed border-[#3c3b54] bg-transparent py-4 text-sm font-medium text-[#9e9db9] hover:border-primary hover:text-primary transition">
+            <span class="material-symbols-outlined">add_circle</span>
+            Add Quick Timer
+        </button>`;
+
+            timersList.innerHTML = html;
+
+            const quickBtn = document.getElementById('quick-timer-btn');
+            if (quickBtn) {
+                quickBtn.addEventListener('click', window.openModal);
+            }
+        }
+
+        // --- CORE ACTIONS ---
+        window.deleteReminder = function (id) {
+            if (confirm('Delete this reminder?')) {
+                window.reminders = window.reminders.filter(r => r.id !== id);
+                saveData();
+                window.renderReminders();
+            }
+        }
+
+        window.toggleTimer = function (id) {
+            const t = window.timers.find(t => t.id === id);
+            if (t) {
+                t.status = t.status === 'running' ? 'paused' : 'running';
+                saveData();
+                window.renderTimers();
+            }
+        }
+
+        window.resetTimer = function (id) {
+            const t = window.timers.find(t => t.id === id);
+            if (t) {
+                t.remainingTime = t.totalTime;
+                t.status = 'paused';
+                saveData();
+                window.renderTimers();
+            }
+        }
+
+        window.deleteTimer = function (id) {
+            const t = window.timers.find(t => t.id === id);
+            if (t && t.status === 'running' && t.remainingTime > 0) {
+                if (!confirm('Stop and delete this running timer?')) return;
+            }
+            window.timers = window.timers.filter(t => t.id !== id);
+            saveData();
+            window.renderTimers();
+        }
+
+        window.addTimer = function (title, minutes) {
+            const id = Date.now();
+            window.timers.push({
+                id,
+                title,
+                totalTime: minutes * 60,
+                remainingTime: minutes * 60,
+                status: 'running'
+            });
+            saveData(); // Save immediately
+            window.renderTimers();
+        }
+
+        function handleInput() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+
+            const timerMatch = text.match(/timer.*(\d+)\s*m|(\d+)\s*m.*timer/i);
+            if (timerMatch) {
+                const min = parseInt(timerMatch[1] || timerMatch[2]);
+                const titleMatch = text.replace(/timer|for|\d+\s*m/gi, '').trim();
+                window.addTimer(titleMatch || 'Quick Timer', min);
+            } else {
+                const timeMatch = text.match(/(\d{1,2}:\d{2})/);
+                const time = timeMatch ? timeMatch[1] : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+                window.reminders.push({
+                    id: Date.now(),
+                    title: text.replace(time, '').trim() || 'New Reminder',
+                    time: time,
+                    description: 'Added via AI Assistant'
+                });
+                saveData();
+                window.renderReminders();
+            }
+            aiInput.value = '';
+        }
+
+        sendBtn.addEventListener('click', handleInput);
+        aiInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleInput();
+        });
+
+        addNewBtn.addEventListener('click', window.openModal);
+
+        // --- COUNTDOWN LOOP ---
+        setInterval(() => {
+            let needsRender = false;
+            window.timers.forEach(t => {
+                if (t.status === 'running' && t.remainingTime > 0) {
+                    t.remainingTime--;
+                    needsRender = true;
+                    if (t.remainingTime === 0) {
+                        t.status = 'completed';
+                    }
+                }
+            });
+            if (needsRender) {
+                window.renderTimers();
+            }
+        }, 1000);
+
+        // Init
+        window.renderReminders();
+        window.renderTimers();
+
+    </script>
+</body>
+
+</html>
