@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#6c2bee", 
+        dark: "#0f0e17",
+        surface: "#1a1825",
+        border: "rgba(255, 255, 255, 0.08)",
+        // Light Mode
+        lightBg: "#f6f6f8", 
+        lightCard: "#ffffff",
+        lightText: "#0f172a", 
+        lightBorder: "#e2e8f0" 
+      },
+      fontFamily: { display: ["Inter", "sans-serif"] },
+      boxShadow: { 
+        'glow': '0 0 20px rgba(108, 43, 238, 0.15)',
+        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)' 
+      }
+    }
+  }
+};
+</script>
+
+<style>
+  /* --- SCROLLBAR LOGIC --- */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { 
+    background: #cbd5e1; border-radius: 4px; border: 2px solid #f6f6f8; 
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .dark ::-webkit-scrollbar-thumb { background: #2e2839; border-color: #0f0e17; }
+  .dark ::-webkit-scrollbar-thumb:hover { background: #433b54; }
+
+  /* --- RANGE SLIDER (Base Styles) --- */
+  input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { 
+    -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; 
+    background: #fff; box-shadow: 0 0 10px rgba(108, 43, 238, 0.5); 
+    margin-top: -6px; border: 2px solid #6c2bee; transition: transform 0.1s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.1); }
+  input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
+  /* Note: Background color of track is handled by JS for the 'fill' effect */
+  
+  /* --- ANIMATIONS --- */
+  @keyframes ripple {
+    0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+  }
+  .mic-active-pulse { animation: ripple 1.5s infinite; }
+
+  /* Visualizer Bars */
+  .bar { width: 3px; background: #34d399; border-radius: 99px; animation: sound 0ms -800ms linear infinite alternate; }
+  .bar:nth-child(1)  { height: 8px; animation-duration: 474ms; }
+  .bar:nth-child(2)  { height: 12px; animation-duration: 433ms; }
+  .bar:nth-child(3)  { height: 6px; animation-duration: 407ms; }
+  @keyframes sound { 0% { opacity: .35; height: 3px; } 100% { opacity: 1; height: 14px; } }
+</style>
+</head>
+
+<body class="bg-lightBg dark:bg-dark text-lightText dark:text-white font-display transition-colors duration-300">
+
+<div class="h-screen w-full flex flex-col overflow-hidden">
+    
+    <header class="h-16 border-b border-lightBorder dark:border-border flex items-center px-8 justify-between shrink-0 bg-lightBg dark:bg-transparent transition-colors duration-300">
+        <h1 class="font-bold text-xl text-slate-900 dark:text-white">Nova AI</h1>
+        <button id="btn-theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-gray-400 transition">
+            <span class="material-symbols-rounded">dark_mode</span>
+        </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-6 md:p-10 pb-40 relative">
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500"></div>
+
+        <div class="w-full max-w-5xl mx-auto flex flex-col gap-12 relative z-10">
+            <header class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Settings</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Configure your assistant's personality and inputs.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button id="btn-discard" class="px-5 py-2.5 rounded-xl border border-lightBorder dark:border-border bg-lightCard dark:bg-surface/50 text-sm font-medium hover:bg-slate-50 dark:hover:bg-white/5 text-slate-600 dark:text-white transition shadow-sm dark:shadow-none">Discard</button>
+                    <button id="btn-save" class="px-6 py-2.5 rounded-xl bg-primary text-white text-sm font-bold shadow-glow hover:bg-primary/90 transition">Save Changes</button>
+                </div>
+            </header>
+
+            <div id="settings-grid" class="invisible grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 flex flex-col gap-8">
+                    
+                    <section class="bg-lightCard dark:bg-surface/60 backdrop-blur-xl border border-lightBorder dark:border-border rounded-2xl p-8 flex flex-col gap-8 shadow-card dark:shadow-none transition-all duration-300">
+                        <div class="flex items-center gap-3 border-b border-lightBorder dark:border-border pb-4">
+                            <div class="p-2 bg-primary/10 rounded-lg text-primary"><span class="material-symbols-rounded">graphic_eq</span></div>
+                            <h3 class="font-bold text-lg">Voice Persona</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <label class="cursor-pointer group">
+                                <input class="peer sr-only" name="voice_model" type="radio" value="atlas"/>
+                                <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-md text-lg">A</div>
+                                    <div class="text-center"><p class="font-bold text-sm">Atlas</p><p class="text-xs text-slate-500 dark:text-gray-400">Male</p></div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group">
+                                <input class="peer sr-only" name="voice_model" type="radio" value="luna"/>
+                                <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-md text-lg">L</div>
+                                    <div class="text-center"><p class="font-bold text-sm">Luna</p><p class="text-xs text-slate-500 dark:text-gray-400">Female</p></div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group">
+                                <input class="peer sr-only" name="voice_model" type="radio" value="nexus"/>
+                                <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center font-bold text-white shadow-md text-lg">N</div>
+                                    <div class="text-center"><p class="font-bold text-sm">Nexus</p><p class="text-xs text-slate-500 dark:text-gray-400">Neutral</p></div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+                            <label class="flex flex-col gap-3">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Language</span>
+                                <select id="lang" class="bg-lightBg dark:bg-dark/50 border border-lightBorder dark:border-border rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white focus:border-primary outline-none focus:ring-2 focus:ring-primary/20">
+                                    <option value="en-us">English (United States)</option>
+                                    <option value="en-uk">English (United Kingdom)</option>
+                                    <option value="hi">Hindi (हिन्दी)</option>
+                                    <option value="es">Spanish (Español)</option>
+                                    <option value="fr">French (Français)</option>
+                                    <option value="de">German (Deutsch)</option>
+                                    <option value="jp">Japanese (日本語)</option>
+                                    <option value="kr">Korean (한국어)</option>
+                                    <option value="hi">Hindi (हिन्दी)</option>
+                                    <option value="pt">Portuguese (Português)</option>
+                                </select>
+                            </label>
+                            
+                            <div class="flex flex-col gap-6">
+                                <div>
+                                    <div class="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-3"><span>Speed</span><span id="lbl-spd" class="text-slate-900 dark:text-white font-bold">1.0x</span></div>
+                                    <input id="rng-spd" type="range" min="0.5" max="2" step="0.1" class="w-full rounded-full h-2 accent-primary"/>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-3"><span>Pitch</span><span id="lbl-ptch" class="text-slate-900 dark:text-white font-bold">Normal</span></div>
+                                    <input id="rng-ptch" type="range" min="-10" max="10" step="1" class="w-full rounded-full h-2 accent-primary"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="bg-lightCard dark:bg-surface/60 backdrop-blur-xl border border-lightBorder dark:border-border rounded-2xl p-8 flex items-center justify-between shadow-card dark:shadow-none transition-all duration-300">
+                        <div class="flex items-center gap-4">
+                            <div class="p-2.5 bg-primary/10 rounded-xl text-primary"><span class="material-symbols-rounded">record_voice_over</span></div>
+                            <div><h3 class="font-bold text-sm">Wake Word</h3><p class="text-xs text-slate-500 dark:text-gray-400">Listen for "Hey Nova"</p></div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-lightBg dark:bg-dark/30 p-1.5 rounded-xl border border-lightBorder dark:border-border">
+                            <input id="inp-wake" type="text" class="bg-transparent border-none text-sm w-28 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:ring-0"/>
+                            <label class="relative inline-flex items-center cursor-pointer mr-1">
+                                <input id="tog-wake" type="checkbox" class="sr-only peer">
+                                <div class="w-9 h-5 bg-slate-300 dark:bg-gray-700 rounded-full peer peer-checked:bg-primary peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+                            </label>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="lg:col-span-4 flex flex-col gap-8">
+                    <section class="bg-lightCard dark:bg-surface/60 backdrop-blur-xl border border-lightBorder dark:border-border rounded-2xl p-8 flex flex-col gap-6 shadow-card dark:shadow-none transition-all duration-300">
+                        <div class="flex items-center gap-3 border-b border-lightBorder dark:border-border pb-4">
+                            <div class="p-2 bg-teal-50 dark:bg-teal-500/10 rounded-lg text-teal-600 dark:text-teal-400"><span class="material-symbols-rounded">mic</span></div>
+                            <h3 class="font-bold text-lg">Input</h3>
+                        </div>
+                        <div class="flex items-center justify-between p-4 rounded-xl bg-lightBg dark:bg-dark/40 border border-lightBorder dark:border-border">
+                            <div class="flex items-center gap-3">
+                                <div id="mic-dot" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-all duration-300"></div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <p id="mic-txt" class="text-xs font-bold text-red-500 dark:text-red-400 transition-colors">Denied</p>
+                                        <div id="mic-vis" class="hidden flex items-end gap-0.5 h-4 mb-0.5">
+                                            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                        </div>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-gray-500">Default</p>
+                                </div>
+                            </div>
+                            <button id="btn-mic" class="text-[10px] font-bold uppercase bg-white dark:bg-white/5 border border-lightBorder dark:border-white/5 px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 transition shadow-sm dark:shadow-none">Request</button>
+                        </div>
+                    </section>
+
+                    <section class="bg-lightCard dark:bg-surface/60 backdrop-blur-xl border border-lightBorder dark:border-border rounded-2xl p-8 flex flex-col gap-6 shadow-card dark:shadow-none transition-all duration-300">
+                        <div class="flex items-center gap-3 border-b border-lightBorder dark:border-border pb-4">
+                            <div class="p-2 bg-pink-50 dark:bg-pink-500/10 rounded-lg text-pink-600 dark:text-pink-400"><span class="material-symbols-rounded">keyboard</span></div>
+                            <h3 class="font-bold text-lg">Shortcuts</h3>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block">Toggle Voice</label>
+                            <input id="sc-tog" readonly class="w-full bg-lightBg dark:bg-dark/40 border border-lightBorder dark:border-border rounded-xl py-3 px-4 text-xs font-mono text-slate-600 dark:text-slate-300 focus:border-primary cursor-pointer text-center"/>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase mb-2 block">Mute Mic</label>
+                            <input id="sc-mute" readonly class="w-full bg-lightBg dark:bg-dark/40 border border-lightBorder dark:border-border rounded-xl py-3 px-4 text-xs font-mono text-slate-600 dark:text-slate-300 focus:border-primary cursor-pointer text-center"/>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="shortcuts.js"></script>
+<script src="setting.js"></script>
+</body>
+</html>
