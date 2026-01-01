@@ -46,86 +46,64 @@
     }
  
   
-    // ===========================
-    // 2. LOADER (Structure-Aware)
+   // ===========================
+    // 2. LOADER (Corrected for your structure)
     // ===========================
     function loadSkeleton() {
         
-        // A. Determine where we are
-        // If URL has "/pages/", we are deep. If not, we are at root.
+        // Check if we are inside the 'pages' folder
         const isPagesFolder = window.location.pathname.includes('/pages/');
-        
-        // B. Define the "Base Path" relative to the current file
-        // Root: "./"
-        // Pages: "../"
         const basePath = isPagesFolder ? '../' : './';
 
         // Load Header
         const headerContainer = document.getElementById('global-header');
         if (headerContainer) {
-            // Fetch from: [basePath] + components/header.html
+            // Fetch from components folder
             fetch(basePath + 'components/header.html') 
-                .then(res => {
-                    if (!res.ok) throw new Error(`Header missing at ${basePath}components/header.html`);
-                    return res.text();
-                })
+                .then(res => res.text())
                 .then(html => {
-                    // C. DYNAMICALLY FIX PATHS inside the header HTML
-                    // We replace the old absolute paths with our new smart relative paths.
-                    
                     let processedHtml = html;
 
-                    // 1. Fix Logo Path
-                    // Old: src="/logo.png" OR src="logo.png"
-                    // New: src="./assets/images/logo.png" OR src="../assets/images/logo.png"
-                    const logoPath = basePath + 'assets/images/logo.png';
-                    processedHtml = processedHtml.replace(/src=["']\/?logo\.png["']/g, `src="${logoPath}"`);
-                    // Also catch if you used /assets/... in the file
-                    processedHtml = processedHtml.replace(/src=["']\/?assets\/images\/logo\.png["']/g, `src="${logoPath}"`);
+                    // --- PATH FIXING LOGIC ---
 
-                    // 2. Fix Home Link
-                    // Old: href="/index.html"
-                    // New: href="./index.html" OR href="../index.html"
-                    const homePath = basePath + 'index.html';
-                    processedHtml = processedHtml.replace(/href=["']\/?index\.html["']/g, `href="${homePath}"`);
-
-                    // 3. Fix Settings/Pages Links
-                    // If we are at root, links like "pages/settings.html" are fine.
-                    // If we are in pages, "pages/settings.html" breaks. It should be just "settings.html" or siblings.
+                    // 1. If we are deep in /pages/, we need to go up (../) to find assets
                     if (isPagesFolder) {
-                        // Change "pages/settings.html" to just "settings.html"
-                        processedHtml = processedHtml.replace(/href=["']\/?pages\/(.*?)["']/g, 'href="$1"');
-                    } else {
-                         // Ensure root links point to pages folder
-                        processedHtml = processedHtml.replace(/href=["']\/?pages\/(.*?)["']/g, 'href="pages/$1"');
-                    }
+                        // Fix Logo: assets/images/logo.png -> ../assets/images/logo.png
+                        processedHtml = processedHtml.replace(/src="assets\//g, 'src="../assets/');
+                        
+                        // Fix Home Link: index.html -> ../index.html
+                        processedHtml = processedHtml.replace(/href="index.html"/g, 'href="../index.html"');
 
+                        // Fix Page Links: 
+                        // Since we are already in 'pages/', we don't need 'pages/' in the link.
+                        // Example: href="pages/settings.html" -> href="settings.html"
+                        processedHtml = processedHtml.replace(/href="pages\//g, 'href="');
+                    }
+                    
                     headerContainer.innerHTML = processedHtml;
                     
-                    // Initialize logic after loading
+                    // Initialize Toggles
                     if(typeof initThemeToggle === 'function') initThemeToggle();
                     if(typeof initHeaderLogic === 'function') initHeaderLogic(); 
                 })
-                .catch(err => console.error('Header Load Error:', err));
+                .catch(err => console.error('Header Error:', err));
         }
 
         // Load Footer
         const footerContainer = document.getElementById('global-footer');
         if (footerContainer) {
             fetch(basePath + 'components/footer.html')
-                .then(res => {
-                    if (!res.ok) throw new Error(`Footer missing at ${basePath}components/footer.html`);
-                    return res.text();
-                })
+                .then(res => res.text())
                 .then(html => {
-                    // Fix logo in footer if it exists
-                    const logoPath = basePath + 'assets/images/logo.png';
-                    let processedHtml = html.replace(/src=["']\/?logo\.png["']/g, `src="${logoPath}"`);
-                    footerContainer.innerHTML = processedHtml;
+                     // Same fix for logo in footer if needed
+                     let processedHtml = html;
+                     if (isPagesFolder) {
+                         processedHtml = processedHtml.replace(/src="assets\//g, 'src="../assets/');
+                     }
+                     footerContainer.innerHTML = processedHtml;
                 });
         }
     }
-
     // ===========================
     // 3. THEME TOGGLE
     // ===========================
@@ -199,4 +177,5 @@
         });
     });
 })();
+
 
