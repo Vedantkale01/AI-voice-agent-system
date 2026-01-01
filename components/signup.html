@@ -1,56 +1,73 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Sign Up | VoiceOS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../tailwind-setup.js"></script>
 </head>
 
-<body class="min-h-screen bg-[#0f1026] flex items-center justify-center text-white">
+<body class="bg-lightBg dark:bg-dark text-slate-900 dark:text-white font-display transition-colors duration-300">
 
-  <div class="w-full max-w-md bg-[#14153a] border border-white/10 rounded-2xl p-8 shadow-2xl">
+  <div class="min-h-screen flex flex-col">
 
-    <h1 class="text-2xl font-bold text-center mb-2">Create Account</h1>
-    <p class="text-sm text-slate-400 text-center mb-6">Join VoiceOS today</p>
+    <div id="global-header"></div>
 
-    <form class="space-y-4">
+    <main class="flex-1 flex items-center justify-center p-6 relative">
+      
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none opacity-50"></div>
 
-      <div>
-        <label class="text-sm text-slate-300">Full Name</label>
-        <input type="text"
-          class="w-full mt-1 px-4 py-3 bg-[#0f1026] border border-white/10 rounded-lg"
-          placeholder="Alex Johnson" />
+      <div class="w-full max-w-md bg-white dark:bg-[#1e1e2d] border border-slate-200 dark:border-white/10 rounded-2xl p-8 shadow-card dark:shadow-2xl relative z-10">
+
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold mb-2">Create Account</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Join VoiceOS today</p>
+        </div>
+
+        <form class="space-y-5">
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Full Name</label>
+            <input type="text"
+              class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#111118] border border-slate-200 dark:border-[#292839] text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition"
+              placeholder="Alex Johnson" />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Email</label>
+            <input type="email"
+              class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#111118] border border-slate-200 dark:border-[#292839] text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition"
+              placeholder="you@example.com" />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Password</label>
+            <input type="password"
+              class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-[#111118] border border-slate-200 dark:border-[#292839] text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition"
+              placeholder="••••••••" />
+          </div>
+
+          <button type="button" onclick="window.location.href='../index.html'"
+            class="w-full py-3.5 rounded-xl bg-primary text-white font-bold shadow-glow hover:bg-primary/90 transition transform active:scale-95">
+            Create Account
+          </button>
+        </form>
+
+        <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-8">
+          Already have an account?
+          <a href="login.html" class="text-primary font-bold hover:underline">Login</a>
+        </p>
       </div>
+    </main>
 
-      <div>
-        <label class="text-sm text-slate-300">Email</label>
-        <input type="email"
-          class="w-full mt-1 px-4 py-3 bg-[#0f1026] border border-white/10 rounded-lg"
-          placeholder="you@example.com" />
-      </div>
-
-      <div>
-        <label class="text-sm text-slate-300">Password</label>
-        <input type="password"
-          class="w-full mt-1 px-4 py-3 bg-[#0f1026] border border-white/10 rounded-lg"
-          placeholder="••••••••" />
-      </div>
-
-      <button
-        class="w-full mt-4 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 font-semibold hover:opacity-90">
-        Create Account
-      </button>
-    </form>
-
-    <p class="text-center text-sm text-slate-400 mt-6">
-      Already have an account?
-      <a href="login.html" class="text-indigo-400 hover:underline">Login</a>
-    </p>
+    <div id="global-footer"></div>
   </div>
+
+  <script src="../js/main.js"></script>
 
 </body>
 </html>
