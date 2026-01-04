@@ -1,44 +1,71 @@
-<footer class="w-full bg-white dark:bg-surface/50 border-t border-lightBorder dark:border-white/5 pt-10 pb-6 mt-10">
-    <div class="px-6 md:px-10">
+<footer class="w-full border-t border-slate-200 dark:border-[#292839] bg-white dark:bg-[#0f0f16] text-slate-600 dark:text-slate-400 text-sm transition-colors duration-300">
+    <div class="w-full max-w-[1400px] mx-auto px-6 py-12 lg:py-16">
         
-        <div class="flex flex-col md:flex-row justify-between gap-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12 text-left">
             
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-3 opacity-80">
-                    <div class="w-8 h-8 flex items-center justify-center dark:bg-white dark:p-1 dark:rounded-lg">
-                        <img src="/logo.png" class="w-full h-full object-contain" alt="Logo">
-                    </div>
-                    <span class="font-bold text-slate-700 dark:text-slate-200">My Brand</span>
-                </div>
-                <p class="text-sm text-slate-500 dark:text-slate-400 max-w-xs">
-                    Building the future of AI assistants with a cyberpunk aesthetic.
+            <div class="lg:col-span-2 flex flex-col items-start gap-6">
+                
+                <img src="assets/images/logo.png" alt="Graphura Logo" 
+     class="h-12 w-auto object-contain transition-all duration-300 dark:brightness-0 dark:invert">
+                <p class="leading-relaxed text-slate-500 dark:text-slate-400 max-w-md">
+                    Your trusted digital marketing partner helping businesses grow their online presence and reach their target audience effectively.
                 </p>
+                
+                <div class="flex items-center gap-3 mt-2">
+                    <a href="https://www.facebook.com/share/19nKAMTopZ/" target="_blank" aria-label="Facebook" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-[#1e1e2d] flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.5 9.87v-7H8v-3h2.5V9.5c0-2.4 1.4-3.7 3.6-3.7 1 0 2 .2 2 .2v2.4h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.3v7A10 10 0 0022 12z"/></svg>
+                    </a>
+                    
+                    <a href="https://share.google/w9KeZZ72v8KQxGpFn" target="_blank" aria-label="Google" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-[#1e1e2d] flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M18.24 2H21l-6.52 7.46L22 22h-6.36l-4.98-6.42L5.26 22H2.5l6.98-7.97L2 2h6.44l4.52 5.83z"/></svg>
+                    </a>
+                    
+                    <a href="https://www.linkedin.com/company/graphura-india-private-limited/" target="_blank" aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-[#1e1e2d] flex items-center justify-center hover:bg-blue-700 hover:text-white transition-all">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM3 9h4v12H3zM9 9h3.6v1.6h.1c.5-.9 1.8-1.8 3.7-1.8 4 0 4.7 2.6 4.7 6v6.2h-4v-5.5c0-1.3 0-3-1.9-3-1.9 0-2.2 1.4-2.2 2.9v5.6H9z"/></svg>
+                    </a>
+                    
+                    <a href="https://www.instagram.com/graphura.in?igsh=MXNqNmtidzljNDJlag==" target="_blank" aria-label="Instagram" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-[#1e1e2d] flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C14.717 2 15.056 2.01 16.122 2.06C17.187 2.11 17.912 2.277 18.55 2.525C19.21 2.779 19.766 3.123 20.322 3.678C20.8305 4.17802 21.2268 4.78363 21.475 5.45C21.722 6.087 21.89 6.813 21.94 7.878C21.987 8.944 22 9.283 22 12C22 14.717 21.99 15.056 21.94 16.122C21.89 17.187 21.722 17.912 21.475 18.55C21.2268 19.2164 20.8305 19.822 20.322 20.322C19.766 20.877 19.21 21.222 18.55 21.475C17.913 21.722 17.187 21.89 16.122 21.94C15.056 21.987 14.717 22 12 22C9.283 22 8.944 21.99 7.878 21.94C6.813 21.89 6.088 21.722 5.45 21.475C4.78363 21.2268 4.17802 20.8305 3.678 20.322C3.122 19.766 2.777 19.21 2.525 18.55C2.277 17.913 2.11 17.187 2.06 16.122C2.013 15.056 2 14.717 2 12C2 9.283 2.01 8.944 2.06 7.878C2.11 6.812 2.277 6.088 2.525 5.45C2.77323 4.78363 3.16954 4.17802 3.678 3.678C4.178 3.122 4.784 2.777 5.45 2.525C6.088 2.277 6.812 2.11 7.878 2.06C8.944 2.013 9.283 2 12 2ZM12 7C9.239 7 7 9.239 7 12C7 14.761 9.239 17 12 17C14.761 17 17 14.761 17 12C17 9.239 14.761 7 12 7ZM18.5 6.75C18.5 7.44 17.94 8 17.25 8C16.56 8 16 7.44 16 6.75C16 6.06 16.56 5.5 17.25 5.5C17.94 5.5 18.5 6.06 18.5 6.75Z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
 
-            <div class="flex gap-10">
-                <div class="flex flex-col gap-3">
-                    <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Product</h4>
-                    <a href="#" class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition">Features</a>
-                    <a href="#" class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition">Integrations</a>
-                    <a href="#" class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition">Pricing</a>
-                </div>
-                <div class="flex flex-col gap-3">
-                    <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Company</h4>
-                    <a href="#" class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition">About</a>
-                    <a href="#" class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition">Blog</a>
-                    <a href="#" class="text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition">Contact</a>
-                </div>
+            <div class="flex flex-col text-left">
+                <h4 class="font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wide text-xs">Quick Links</h4>
+                <ul class="flex flex-col gap-3">
+                    <li><a href="index.html" class="hover:text-blue-600 transition-colors">Home</a></li>
+                    <li><a href="pages/activityhistory.html" class="hover:text-blue-600 transition-colors">Activity</a></li>
+                    <li><a href="pages/task-manager.html" class="hover:text-blue-600 transition-colors">Task Manager</a></li>
+                    <li><a href="pages/reminderpage.html" class="hover:text-blue-600 transition-colors">Reminder</a></li>
+                    <li><a href="pages/setting.html" class="hover:text-blue-600 transition-colors">Setting</a></li>
+             
+                </ul>
             </div>
+
+            <div class="flex flex-col text-left">
+                <h4 class="font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wide text-xs">Contact Us</h4>
+                <ul class="flex flex-col gap-4">
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-rounded text-blue-600 text-lg mt-0.5 shrink-0">location_on</span>
+                        <span class="leading-snug">Graphura India Private Limited, near RSF, Pataudi, Gurgaon, Haryana 122503</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-rounded text-blue-600 text-lg shrink-0">call</span>
+                        <span>+91 7378021327</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-rounded text-blue-600 text-lg shrink-0">mail</span>
+                        <a href="mailto:support@graphura.in" class="hover:text-blue-600 transition-colors break-all">support@graphura.in</a>
+                    </li>
+                </ul>
+            </div>
+            
         </div>
 
-        <div class="h-px w-full bg-slate-200 dark:bg-white/5 mb-6"></div>
-
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-            <p>&copy; 2025 My Brand AI. All rights reserved.</p>
-            <div class="flex gap-4">
-                <a href="#" class="hover:text-primary transition">Privacy Policy</a>
-                <a href="#" class="hover:text-primary transition">Terms of Service</a>
-            </div>
+        <div class="pt-8 border-t border-slate-200 dark:border-[#292839] flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium">
+            <p class="text-center md:text-left">&copy; 2025 Graphura India Private Limited. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
