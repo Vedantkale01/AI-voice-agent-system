@@ -64,58 +64,82 @@
 
                 <div id="settings-grid" class="invisible grid grid-cols-1 lg:grid-cols-12 gap-8">
                     <div class="lg:col-span-8 flex flex-col gap-8">
-                        <section class="bg-lightCard dark:bg-surface/60 backdrop-blur-xl border border-lightBorder dark:border-border rounded-2xl p-8 flex flex-col gap-8 shadow-card dark:shadow-none transition-all duration-300">
-                            <div class="flex items-center gap-3 border-b border-lightBorder dark:border-border pb-4">
-                                <div class="p-2 bg-primary/10 rounded-lg text-primary"><span class="material-symbols-rounded">graphic_eq</span></div>
-                                <h3 class="font-bold text-lg">Voice Persona</h3>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <label class="cursor-pointer group">
-                                    <input class="peer sr-only" name="voice_model" type="radio" value="atlas"/>
-                                    <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-md text-lg">A</div>
-                                        <div class="text-center"><p class="font-bold text-sm">Atlas</p><p class="text-xs text-slate-500 dark:text-gray-400">Male</p></div>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer group">
-                                    <input class="peer sr-only" name="voice_model" type="radio" value="luna"/>
-                                    <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-md text-lg">L</div>
-                                        <div class="text-center"><p class="font-bold text-sm">Luna</p><p class="text-xs text-slate-500 dark:text-gray-400">Female</p></div>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer group">
-                                    <input class="peer sr-only" name="voice_model" type="radio" value="nexus"/>
-                                    <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center font-bold text-white shadow-md text-lg">N</div>
-                                        <div class="text-center"><p class="font-bold text-sm">Nexus</p><p class="text-xs text-slate-500 dark:text-gray-400">Neutral</p></div>
-                                    </div>
-                                </label>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
-                                <label class="flex flex-col gap-3">
-                                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Language</span>
-                                    <select id="lang" class="bg-lightBg dark:bg-dark/50 border border-lightBorder dark:border-border rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white focus:border-primary outline-none focus:ring-2 focus:ring-primary/20">
-                                        <option value="en-us">English (United States)</option>
-                                        <option value="en-uk">English (United Kingdom)</option>
-                                        <option value="hi">Hindi (हिन्दी)</option>
-                                    </select>
-                                </label>
-                                
-                                <div class="flex flex-col gap-6">
-                                    <div>
-                                        <div class="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-3"><span>Speed</span><span id="lbl-spd" class="text-slate-900 dark:text-white font-bold">1.0x</span></div>
-                                        <input id="rng-spd" type="range" min="0.5" max="2" step="0.1" class="w-full rounded-full h-2 accent-primary"/>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-3"><span>Pitch</span><span id="lbl-ptch" class="text-slate-900 dark:text-white font-bold">Normal</span></div>
-                                        <input id="rng-ptch" type="range" min="-10" max="10" step="1" class="w-full rounded-full h-2 accent-primary"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+<!-- Personavoice -->
+       <section class="bg-lightCard dark:bg-surface border border-lightBorder dark:border-border rounded-2xl p-8 flex flex-col gap-8 shadow-card dark:shadow-none transition-all duration-300">
+                    <div class="flex items-center gap-3 border-b border-lightBorder dark:border-border pb-4">
+                <div class="p-2 bg-primary/10 rounded-lg text-primary"><span class="material-symbols-rounded">graphic_eq</span></div>
+                     <h3 class="font-bold text-lg">Voice Persona</h3>
+                 </div>
+    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+                <div class="relative group">
+            <label class="cursor-pointer block h-full">
+                <input class="peer sr-only" name="voice_model" type="radio" value="atlas"/>
+                <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center font-bold text-white shadow-md text-lg">A</div>
+                    <div class="text-center"><p class="font-bold text-sm">Atlas</p><p class="text-xs text-slate-500 dark:text-gray-400">Male • Deep</p></div>
+                </div>
+            </label>
+            <button onclick="previewVoice(event, 'atlas')" class="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 dark:bg-black/20 hover:bg-primary hover:text-white text-slate-500 transition-colors shadow-sm z-10" title="Preview Voice">
+                <span class="material-symbols-rounded text-lg icon-atlas">play_arrow</span>
+            </button>
+        </div>
+
+        <div class="relative group">
+            <label class="cursor-pointer block h-full">
+                <input class="peer sr-only" name="voice_model" type="radio" value="luna"/>
+                <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-md text-lg">L</div>
+                    <div class="text-center"><p class="font-bold text-sm">Luna</p><p class="text-xs text-slate-500 dark:text-gray-400">Female • Soft</p></div>
+                </div>
+            </label>
+            <button onclick="previewVoice(event, 'luna')" class="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 dark:bg-black/20 hover:bg-primary hover:text-white text-slate-500 transition-colors shadow-sm z-10" title="Preview Voice">
+                <span class="material-symbols-rounded text-lg icon-luna">play_arrow</span>
+            </button>
+        </div>
+
+        <div class="relative group">
+            <label class="cursor-pointer block h-full">
+                <input class="peer sr-only" name="voice_model" type="radio" value="nexus"/>
+                <div class="h-full p-6 rounded-xl border border-lightBorder dark:border-border bg-lightBg dark:bg-dark/30 hover:bg-slate-200 dark:hover:bg-dark/50 peer-checked:border-primary peer-checked:bg-white peer-checked:shadow-card dark:peer-checked:bg-primary/5 dark:peer-checked:shadow-none transition flex flex-col items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center font-bold text-white shadow-md text-lg">N</div>
+                    <div class="text-center"><p class="font-bold text-sm">Nexus</p><p class="text-xs text-slate-500 dark:text-gray-400">Neutral • Crisp</p></div>
+                </div>
+            </label>
+            <button onclick="previewVoice(event, 'nexus')" class="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 dark:bg-black/20 hover:bg-primary hover:text-white text-slate-500 transition-colors shadow-sm z-10" title="Preview Voice">
+                <span class="material-symbols-rounded text-lg icon-nexus">play_arrow</span>
+            </button>
+        </div>
+
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+<!-- Languages -->
+
+                <label class="flex flex-col gap-3">
+                  <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Language</span>
+                  <select id="lang" class="bg-lightBg dark:bg-dark/50 border border-lightBorder dark:border-border rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white focus:border-primary outline-none focus:ring-2 focus:ring-primary/20">
+                         <option value="en-us" >English (United States)</option>
+                        <option value="en-uk">English (United Kingdom)</option>
+                      <option value="hi">Hindi (हिन्दी)</option>
+                        </select>
+                </label>
+
+
+        
+        <div class="flex flex-col gap-6">
+            <div>
+                <div class="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-3"><span>Speed</span><span id="lbl-spd" class="text-slate-900 dark:text-white font-bold">1.0x</span></div>
+                <input id="rng-spd" type="range" min="0.5" max="2" step="0.1" value="1" class="w-full rounded-full h-2 accent-primary"/>
+            </div>
+            <div>
+                <div class="flex justify-between text-xs text-slate-500 dark:text-gray-400 mb-3"><span>Pitch</span><span id="lbl-ptch" class="text-slate-900 dark:text-white font-bold">Normal</span></div>
+                <input id="rng-ptch" type="range" min="0.5" max="2" step="0.1" value="1" class="w-full rounded-full h-2 accent-primary"/>
+            </div>
+        </div>
+    </div>
+</section> 
                         
                         <section class="bg-lightCard dark:bg-surface/60 backdrop-blur-xl border border-lightBorder dark:border-border rounded-2xl p-8 flex items-center justify-between shadow-card dark:shadow-none transition-all duration-300">
                             <div class="flex items-center gap-4">
@@ -178,6 +202,9 @@
         </div>
     <script src="../js/main.js"> </script>
     <script src="../js/setting.js"></script>
+     <script src="../js/personaVoice.js"></script>
+
 </body>
 </html> 
+
 
