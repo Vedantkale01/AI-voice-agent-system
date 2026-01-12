@@ -1,4 +1,5 @@
  // --- VARIABLES ---
+
     const micBtn = document.getElementById('micBtn');
     const micIcon = document.getElementById('micIcon');
     const innerRing = document.getElementById('innerRing');
