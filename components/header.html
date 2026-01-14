@@ -1,61 +1,72 @@
-<header class=" h-20 w-full border-b border-primary/20 dark:border-primary/30 bg-primary/10 dark:bg-[#05050A]/90 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
+<header class="h-20 w-full border-b border-primary/20 dark:border-primary/30 bg-primary/10 dark:bg-[#05050A]/90 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
     
-    <div class="flex items-center justify-between px-6 md:px-10 h-full max-w-7xl mx-auto">
+    <div class="relative flex items-center justify-between px-4 md:px-10 h-full w-full">
         
-        <a href="https://www.graphura.in/" class="flex items-center gap-4 hover:opacity-80 transition shrink-0">
-            <div class="h-16 w-auto flex items-center justify-center overflow-hidden">
-                <img src="assets/images/logo.png" alt="Logo" class="h-full w-auto object-contain dark:brightness-0 dark:invert" />
-            </div>
-        </a>
+        <div class="flex items-center gap-4">
+            <button id="btn-mobile-menu" class="lg:hidden p-2 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-white shadow-sm hover:bg-slate-50 transition">
+                <span class="material-symbols-rounded text-2xl">menu</span>
+            </button>
 
-        <nav class="hidden lg:flex items-center gap-1 bg-white dark:bg-surface/50 border border-lightBorder dark:border-white/5 p-1.5 rounded-full shadow-sm">
-            <a href="index.html" class="nav-link px-5 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Home</a>
-            <a href="pages/activityhistory.html" class="nav-link px-5 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Activity</a>
-            <a href="pages/task-manager.html" class="nav-link px-5 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Task Manager</a>
-            <a href="pages/reminderpage.html" class="nav-link px-5 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Reminder</a>
-             <a href="pages/setting.html" class="nav-link px-5 py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Settings</a>
+            <a href="https://www.graphura.in/" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 flex items-center gap-4 hover:opacity-80 transition">
+                <div class="h-14 md:h-16 w-auto flex items-center justify-start overflow-hidden">
+                    <img src="assets/images/logo.png" alt="Logo" class="h-full w-auto object-contain dark:brightness-0 dark:invert" />
+                </div>
+            </a>
+        </div>
+
+        <nav class="hidden lg:flex items-center gap-2 bg-white dark:bg-surface/50 border border-lightBorder dark:border-white/5 p-2 rounded-full shadow-sm">
+            <a href="index.html" class="nav-link px-6 py-2 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Home</a>
+            <a href="pages/activityhistory.html" class="nav-link px-6 py-2 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Activity</a>
+            <a href="pages/task-manager.html" class="nav-link px-6 py-2 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Task Manager</a>
+            <a href="pages/reminderpage.html" class="nav-link px-6 py-2 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Reminder</a>
+             <a href="pages/setting.html" class="nav-link px-6 py-2 text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-full transition-colors">Settings</a>
         </nav>
 
         <div class="flex items-center gap-3">
             
-            <button id="btn-theme-toggle" class="p-2.5 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 transition">
+            <button id="btn-theme-toggle" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 transition">
                 <span class="material-symbols-rounded text-xl">dark_mode</span>
             </button>
 
-            <div class="hidden lg:flex items-center gap-3 border-l border-slate-200 dark:border-white/10 pl-3">
-                <a href="pages/login.html" class="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition">
-                    Login
-                </a>
-                <a href="pages/signup.html" class="px-4 py-2 text-sm font-bold text-white bg-primary rounded-xl shadow-glow hover:bg-primary/90 transition transform hover:scale-105">
-                    Sign Up
-                </a>
-            </div>
+            <div class="flex items-center gap-3 pl-2 md:pl-3 md:border-l border-slate-200 dark:border-white/10">
+                
+                <div id="desktop-guest" class="hidden md:flex items-center gap-3">
+                    <button type="button" onclick="openLogin()" class="px-5 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition cursor-pointer">Login</button>
+                    <button type="button" onclick="openSignup()" class="px-5 py-2 text-sm font-bold text-white bg-primary rounded-xl shadow-glow hover:bg-primary/90 transition transform hover:scale-105">Sign Up</button>
+                </div>
 
-            <button id="btn-mobile-menu" class="lg:hidden p-2.5 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-white shadow-sm hover:bg-slate-50 transition">
-                <span class="material-symbols-rounded text-xl">menu</span>
-            </button>
+                <div id="global-user" onclick="openProfile()" class="hidden md:flex items-center gap-3 cursor-pointer group" style="display: none;">
+                    <div class="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold border border-primary/50 group-hover:scale-105 transition">
+                        <span id="headerAvatarLetter">U</span>
+                    </div>
+                </div>
+
+                <div id="mobile-only-profile" onclick="openProfile()" class="md:hidden flex items-center justify-center h-9 w-9 rounded-full bg-primary/20 text-primary font-bold border border-primary/50 cursor-pointer" style="display: none;">
+                    <span id="mobileAvatarLetter">U</span>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <div id="mobile-menu-dropdown" class="hidden absolute top-20 left-0 w-full border-b border-lightBorder dark:border-border bg-white/95 dark:bg-dark/95 backdrop-blur-xl p-4 flex flex-col gap-2 shadow-xl lg:hidden">
-        
         <a href="index.html" class="mobile-link p-4 rounded-xl text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">Home</a>
         <a href="pages/activityhistory.html" class="mobile-link p-4 rounded-xl text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">Activity</a>
-        
         <a href="pages/task-manager.html" class="mobile-link p-4 rounded-xl text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">Task Manager</a>
         <a href="pages/reminderpage.html" class="mobile-link p-4 rounded-xl text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">Reminder</a>
         <a href="pages/setting.html" class="mobile-link p-4 rounded-xl text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition">Settings</a>
         
-
         <div class="h-px w-full bg-slate-200 dark:bg-white/10 my-1"></div>
 
-        <div class="grid grid-cols-2 gap-3 pt-1">
-            <a href="pages/login.html" class="text-center p-3 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-white/5 transition">
-                Login
-            </a>
-            <a href="pages/signup.html" class="text-center p-3 rounded-xl bg-primary text-white font-bold shadow-glow hover:bg-primary/90 transition">
-                Sign Up
-            </a>
+        <div id="mobile-guest" class="grid grid-cols-2 gap-3 pt-1 md:hidden">
+            <button type="button" onclick="openLogin()" class="text-center p-3 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-white/5 transition w-full">Login</button>
+            <button type="button" onclick="openSignup()" class="text-center p-3 rounded-xl bg-primary text-white font-bold shadow-glow hover:bg-primary/90 transition w-full">Sign Up</button>
+        </div>
+
+        <div id="mobile-user" class="hidden pt-1 gap-2 flex-col md:hidden" style="display: none;">
+             <button onclick="executeLogout()" class="w-full p-3 rounded-xl bg-red-500/10 text-red-500 font-bold border border-red-500/20 hover:bg-red-500/20 transition flex items-center justify-center gap-2">
+                <span class="material-symbols-rounded">logout</span> Logout
+            </button>
         </div>
     </div>
 </header>
